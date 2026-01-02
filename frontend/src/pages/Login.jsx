@@ -14,21 +14,21 @@ const Login = () => {
     e.preventDefault();
     setError("");
     setLoading(true);
-
+  
     try {
-      const res = await backend.post("/auth/login", {
+      await backend.post("/auth/login", {
         email,
         password,
       });
-
-      localStorage.setItem("token", res.data.token);
+  
+      // ✅ TOKEN COOKIE ME SET HO CHUKA HAI
       navigate("/profile");
     } catch (err) {
       setError(err.response?.data?.message || "Invalid credentials");
     } finally {
       setLoading(false);
     }
-  };
+  };  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-black">
