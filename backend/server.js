@@ -12,13 +12,11 @@ connectDB();
 const app = express();
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://streamverse-eta-sandy.vercel.app"
-    ],
+    origin: true,
     credentials: true,
   })
 );
+;
 
 app.use(express.json());
 
