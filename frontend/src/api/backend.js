@@ -2,6 +2,7 @@ import axios from "axios";
 
 const backend = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
@@ -9,14 +10,14 @@ const backend = axios.create({
 });
 
 // Token auto-attach (IMPORTANT)
-backend.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
+// backend.interceptors.request.use((config) => {
+//   const token = localStorage.getItem("token");
 
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
+//   if (token) {
+//     config.headers.Authorization = `Bearer ${token}`;
+//   }
 
-  return config;
-});
+//   return config;
+// });
 
 export default backend;
