@@ -12,15 +12,19 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      await backend.post("/auth/register", {
+      const res = await backend.post("/auth/register", {
         name,
         email,
         password,
       });
 
-      alert("Account created successfully");
-      navigate("/login");
+      // ✅ SUCCESS CHECK
+      if (res.status === 201) {
+        alert("Account created successfully");
+        navigate("/login");
+      }
     } catch (err) {
+      // ✅ REAL ERROR FROM BACKEND
       alert(err.response?.data?.message || "Registration failed");
     }
   };
@@ -37,6 +41,7 @@ const Register = () => {
           type="text"
           placeholder="Name"
           value={name}
+          required
           onChange={(e) => setName(e.target.value)}
           className="w-full mb-4 px-4 py-2 border rounded"
         />
@@ -45,6 +50,7 @@ const Register = () => {
           type="email"
           placeholder="Email"
           value={email}
+          required
           onChange={(e) => setEmail(e.target.value)}
           className="w-full mb-4 px-4 py-2 border rounded"
         />
@@ -53,6 +59,7 @@ const Register = () => {
           type="password"
           placeholder="Password"
           value={password}
+          required
           onChange={(e) => setPassword(e.target.value)}
           className="w-full mb-6 px-4 py-2 border rounded"
         />
