@@ -2,7 +2,6 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-// REGISTER (same as before)
 export const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -22,16 +21,20 @@ export const registerUser = async (req, res) => {
     });
 
     res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
+      success: true,
+      message: "User registered successfully",
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+      },
     });
+
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// ✅ LOGIN (COOKIE FIXED)
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -52,16 +55,18 @@ export const loginUser = async (req, res) => {
       { expiresIn: "30d" }
     );
 
-    // 🍪 COOKIE SET (THIS WAS MISSING)
+    // 🍪 COOKIE (DEV + PROD SAFE)
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true,      // Render + Vercel = HTTPS
-      sameSite: "none",  // Cross-origin cookie
+      secure: process.env.NODE_ENV === "production", // ❗ localhost fix
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
+    // 🔥🔥 TOKEN RESPONSE ME BHI BHEJO (IMPORTANT)
     res.status(200).json({
       success: true,
+      token, // 👈 FRONTEND ISKO SAVE KAREGA
       user: {
         _id: user._id,
         name: user.name,

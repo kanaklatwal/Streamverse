@@ -16,10 +16,13 @@ const Login = () => {
     setLoading(true);
   
     try {
-      await backend.post("/auth/login", {
+      const res = await backend.post("/auth/login", {
         email,
         password,
       });
+      
+      // 🔥🔥 YAHI TOKEN SAVE KARNA HAI
+      localStorage.setItem("token", res.data.token);
   
       // ✅ TOKEN COOKIE ME SET HO CHUKA HAI
       navigate("/profile");
