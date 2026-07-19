@@ -100,7 +100,6 @@ Frontend: Vercel
 
 Backend: Render
 
-(Live link will be added soon 🚀)
 
 🎯 Learning Outcomes
 
